@@ -10,7 +10,7 @@ class PetsControllerTest < ActionController::TestCase
 
   test "can get #index" do
     get :index
-    assert_response :success
+    assert_response :ok
   end
 
   test "#index returns json" do
@@ -37,4 +37,16 @@ class PetsControllerTest < ActionController::TestCase
     body = JSON.parse(response.body)
     assert_equal keys, body.map(&:keys).flatten.uniq.sort
   end
+
+  test "can get #show" do
+    get :show, id: pets(:one)
+    assert_response :ok
+  end
+
+  test "gives status :no_content when you try to see a pet that isn't there" do
+    get :show, { id: 5 }
+    assert_response :no_content
+  end
+
+
 end
